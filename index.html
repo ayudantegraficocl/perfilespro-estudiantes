@@ -200,7 +200,7 @@
                     'Content-Type': 'text/plain;charset=utf-8', // Apps Script procesa mejor text/plain cuando hay redirecciones
                 },
                 body: JSON.stringify(payload)
-            });
+            })
             .then(() => {
                 document.getElementById('loading-screen').classList.add('hidden');
                 document.getElementById('success-screen').classList.remove('hidden');

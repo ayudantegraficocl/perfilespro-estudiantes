@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casting de Identidad | Taller de Diseño</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        h1, h2, h3, .font-heading { font-family: 'Space Grotesk', sans-serif; }
+    </style>
+</head>
+<body class="bg-stone-950 text-stone-100 min-h-screen flex flex-col justify-between antialiased">
+
+    <header class="p-6 max-w-4xl mx-auto w-full border-b border-stone-900/50 flex justify-between items-center">
+        <span class="text-xs uppercase tracking-widest text-stone-500 font-heading">Taller de Titulación e Identidad</span>
+        <span class="text-xs text-stone-500" id="progress-text">Paso 0 de 6</span>
+    </header>
+
+    <main class="max-w-2xl mx-auto w-full px-6 py-12 flex-grow flex flex-col justify-center">
+        <form id="story-form" onsubmit="event.preventDefault();">
+            
+            <!-- PASO 0: Datos Iniciales -->
+            <div class="step-content block" data-step="0">
+                <span class="text-xs font-heading uppercase text-amber-500 tracking-wider mb-2 block">Fase 00 // Tu Registro</span>
+                <h1 class="text-4xl font-bold tracking-tight text-stone-100 mb-4">Casting de Identidad: El Guion de tu Jornada</h1>
+                <p class="text-stone-400 mb-6 text-sm leading-relaxed">
+                    Completa este formulario relatando tu día ideal y tus reacciones en un día complejo. Al finalizar, el sistema procesará tu perfil e ingeniería inversa y te enviará tu **Ficha Profesional Completa a tu correo electrónico**.
+                </p>
+                
+                <div class="space-y-4 mb-8">
+                    <div>
+                        <label class="block text-xs font-heading uppercase text-stone-500 mb-2">Nombre Completo:</label>
+                        <input type="text" id="student-name" required class="w-full bg-stone-900 border border-stone-800 rounded-lg p-3 text-stone-200 focus:outline-none focus:border-amber-500 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-heading uppercase text-stone-500 mb-2">Correo Electrónico (Donde recibirás tu Ficha):</label>
+                        <input type="email" id="student-email" required class="w-full bg-stone-900 border border-stone-800 rounded-lg p-3 text-stone-200 focus:outline-none focus:border-amber-500 text-sm">
+                    </div>
+                </div>
+
+                <button type="button" id="start-btn" class="px-6 py-3 bg-amber-500 text-stone-950 font-heading text-sm font-medium rounded-md hover:bg-amber-400 transition">
+                    Comenzar Test →
+                </button>
+            </div>
+
+            <!-- PASO 1: Despertar -->
+            <div class="step-content hidden" data-step="1">
+                <span class="text-xs font-heading uppercase text-amber-500 tracking-wider mb-2 block">Fase 01 // El Inicio</span>
+                <h2 class="text-3xl font-medium text-stone-200 mb-4">El Ritual del Despertar</h2>
+                <textarea id="fase_despertar" class="w-full h-40 bg-stone-900 border border-stone-800 rounded-lg p-4 text-stone-200 text-sm resize-none focus:outline-none focus:border-amber-500" placeholder="¿Cómo pasas de estar dormido a activo? Desayuno, música, alarmas..."></textarea>
+            </div>
+
+            <!-- PASO 2: Trayecto -->
+            <div class="step-content hidden" data-step="2">
+                <span class="text-xs font-heading uppercase text-amber-500 tracking-wider mb-2 block">Fase 02 // El Ritmo</span>
+                <h2 class="text-3xl font-medium text-stone-200 mb-4">El Tránsito y la Transición</h2>
+                <textarea id="fase_trayecto" class="w-full h-40 bg-stone-900 border border-stone-800 rounded-lg p-4 text-stone-200 text-sm resize-none focus:outline-none focus:border-amber-500" placeholder="¿Cómo te trasladas? ¿En qué piensas o qué escuchas en el camino?..."></textarea>
+            </div>
+
+            <!-- PASO 3: Espacio -->
+            <div class="step-content hidden" data-step="3">
+                <span class="text-xs font-heading uppercase text-amber-500 tracking-wider mb-2 block">Fase 03 // El Hábitat</span>
+                <h2 class="text-3xl font-medium text-stone-200 mb-4">Tu Entorno y Atmósfera</h2>
+                <textarea id="fase_espacio" class="w-full h-40 bg-stone-900 border border-stone-800 rounded-lg p-4 text-stone-200 text-sm resize-none focus:outline-none focus:border-amber-500" placeholder="Describe tu lugar de trabajo ideal: luz, silla, orden, desorden..."></textarea>
+            </div>
+
+            <!-- PASO 4: Acción -->
+            <div class="step-content hidden" data-step="4">
+                <span class="text-xs font-heading uppercase text-amber-500 tracking-wider mb-2 block">Fase 04 // El Método</span>
+                <h2 class="text-3xl font-medium text-stone-200 mb-4">Manos a la Obra</h2>
+                <textarea id="fase_accion" class="w-full h-40 bg-stone-900 border border-stone-800 rounded-lg p-4 text-stone-200 text-sm resize-none focus:outline-none focus:border-amber-500" placeholder="Te entregan un problema complejo. ¿Qué haces primero? ¿Escribes, bocetas, usas IA, abres Figma?..."></textarea>
+            </div>
+
+            <!-- PASO 5: Conflicto -->
+            <div class="step-content hidden" data-step="5">
+                <span class="text-xs font-heading uppercase text-rose-500 tracking-wider mb-2 block">Fase 05 // Giro de la Trama</span>
+                <h2 class="text-3xl font-medium text-rose-200 mb-4">Cuando el Día se Complica</h2>
+                <textarea id="fase_conflicto" class="w-full h-40 bg-stone-900 border border-rose-900/50 rounded-lg p-4 text-stone-200 text-sm resize-none focus:outline-none focus:border-rose-500" placeholder="Las cosas salen mal. ¿Cuál es tu reacción interna y cómo actúas hacia afuera para resolver?..."></textarea>
+            </div>
+
+            <!-- PASO 6: Cierre -->
+            <div class="step-content hidden" data-step="6">
+                <span class="text-xs font-heading uppercase text-amber-500 tracking-wider mb-2 block">Fase 06 // El Retorno</span>
+                <h2 class="text-3xl font-medium text-stone-200 mb-4">El Cierre y la Desconexión</h2>
+                <textarea id="fase_cierre" class="w-full h-40 bg-stone-900 border border-stone-800 rounded-lg p-4 text-stone-200 text-sm resize-none focus:outline-none focus:border-amber-500" placeholder="¿Cómo te relacionas con el cliente o tu equipo al cerrar? ¿Cómo desconectas al final del día?..."></textarea>
+            </div>
+
+            <!-- Botones -->
+            <div id="nav-container" class="mt-8 flex justify-between items-center hidden">
+                <button type="button" id="prev-btn" class="px-4 py-2 text-sm text-stone-500 hover:text-stone-300 transition">← Volver</button>
+                <button type="button" id="next-btn" class="px-6 py-2.5 bg-stone-200 text-stone-950 font-heading text-sm font-medium rounded-md hover:bg-white transition">Siguiente paso →</button>
+            </div>
+        </form>
+
+        <!-- PANTALLA DE CARGA / ÉXITO -->
+        <div id="loading-screen" class="hidden text-center py-12">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500 mb-4"></div>
+            <h2 class="text-2xl font-heading font-medium text-stone-100 mb-2">Procesando tu Identidad Profesional...</h2>
+            <p class="text-stone-400 text-sm">Nuestra IA está analizando tu "Saber Ser" e ingeniería inversa. En unos segundos recibirás tu Ficha Completa en tu correo.</p>
+        </div>
+
+        <div id="success-screen" class="hidden text-center py-12">
+            <h2 class="text-3xl font-heading font-bold text-amber-500 mb-4">¡Ficha Enviada con Éxito! 🎬</h2>
+            <p class="text-stone-300 text-sm leading-relaxed mb-6">Hemos enviado tu diagnóstico completo y maquetado directamente a tu bandeja de entrada. Revisa tu correo (y la carpeta de SPAM por si acaso) para descubrir tu perfil de mercado y tu desafío de entrenamiento.</p>
+            <button onclick="window.location.reload();" class="px-4 py-2 bg-stone-900 text-xs text-stone-400 rounded hover:bg-stone-800">Enviar otra respuesta</button>
+        </div>
+    </main>
+
+    <footer class="p-6 text-center text-xs text-stone-600 max-w-4xl mx-auto w-full border-t border-stone-900/30">
+        Taller de Identidad Profesional // Automatización 100% Serverless
+    </footer>
+
+    <script>
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwGMc72pAgwcx6vyHbOtSBepm85gekAwFhDEs6_hDpTJaX5Y2yncagl82jsoOJO8CNsjw/exec"; // <--- Pega aquí tu URL de Google Apps Script
+
+        let currentStep = 0;
+        const totalSteps = 6;
+
+        const startBtn = document.getElementById('start-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const navContainer = document.getElementById('nav-container');
+        const progressText = document.getElementById('progress-text');
+
+        startBtn.addEventListener('click', () => {
+            const name = document.getElementById('student-name').value.trim();
+            const email = document.getElementById('student-email').value.trim();
+            if (!name || !email) {
+                alert("Por favor completa tu nombre y tu correo.");
+                return;
+            }
+            currentStep = 1;
+            navContainer.classList.remove('hidden');
+            updateStep();
+        });
+
+        function updateStep() {
+            document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
+            document.querySelector(`.step-content[data-step="${currentStep}"]`).classList.remove('hidden');
+            progressText.innerText = `Paso ${currentStep} de ${totalSteps}`;
+
+            prevBtn.style.visibility = (currentStep === 1) ? 'hidden' : 'visible';
+
+            if (currentStep === totalSteps) {
+                nextBtn.innerText = "Finalizar y Enviar a mi Correo 🚀";
+                nextBtn.className = "px-6 py-2.5 bg-amber-500 text-stone-950 font-heading text-sm font-medium rounded-md hover:bg-amber-400 transition";
+            } else {
+                nextBtn.innerText = "Siguiente paso →";
+                nextBtn.className = "px-6 py-2.5 bg-stone-200 text-stone-950 font-heading text-sm font-medium rounded-md hover:bg-white transition";
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentStep > 0 && currentStep <= totalSteps) {
+                const currentTextarea = document.querySelector(`.step-content[data-step="${currentStep}"] textarea`);
+                if (currentTextarea && !currentTextarea.value.trim()) {
+                    alert("Por favor completa este paso antes de continuar.");
+                    return;
+                }
+            }
+
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateStep();
+            } else {
+                submitData();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStep();
+            }
+        });
+
+        function submitData() {
+            document.getElementById('story-form').classList.add('hidden');
+            navContainer.classList.add('hidden');
+            document.getElementById('loading-screen').classList.remove('hidden');
+
+            const payload = {
+                nombre: document.getElementById('student-name').value,
+                email: document.getElementById('student-email').value,
+                respuestas: {
+                    fase_despertar: document.getElementById('fase_despertar').value,
+                    fase_trayecto: document.getElementById('fase_trayecto').value,
+                    fase_espacio: document.getElementById('fase_espacio').value,
+                    fase_accion: document.getElementById('fase_accion').value,
+                    fase_conflicto: document.getElementById('fase_conflicto').value,
+                    fase_cierre: document.getElementById('fase_cierre').value
+                }
+            };
+
+            fetch(WEB_APP_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Permite el envío cross-origin con Google Apps Script
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                document.getElementById('loading-screen').classList.add('hidden');
+                document.getElementById('success-screen').classList.remove('hidden');
+            })
+            .catch(err => {
+                alert("Ocurrió un error al enviar. Inténtalo nuevamente.");
+                console.error(err);
+            });
+        }
+    </script>
+</body>
+</html>

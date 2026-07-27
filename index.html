@@ -196,10 +196,11 @@
 
             fetch(WEB_APP_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Permite el envío cross-origin con Google Apps Script
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8', // Apps Script procesa mejor text/plain cuando hay redirecciones
+                },
                 body: JSON.stringify(payload)
-            })
+            });
             .then(() => {
                 document.getElementById('loading-screen').classList.add('hidden');
                 document.getElementById('success-screen').classList.remove('hidden');

@@ -21,7 +21,7 @@
     <main class="max-w-2xl mx-auto w-full px-6 py-12 flex-grow flex flex-col justify-center">
         <form id="story-form" onsubmit="event.preventDefault();">
             
-            <!-- PASO 0: Datos Iniciales -->
+            <!-- PASO 0: Registro de Nombre y Correo -->
             <div class="step-content block" data-step="0">
                 <span class="text-xs font-heading uppercase text-amber-500 tracking-wider mb-2 block">Fase 00 // Tu Registro</span>
                 <h1 class="text-4xl font-bold tracking-tight text-stone-100 mb-4">Casting de Identidad: El Guion de tu Jornada</h1>
@@ -32,15 +32,15 @@
                 <div class="space-y-4 mb-8">
                     <div>
                         <label class="block text-xs font-heading uppercase text-stone-500 mb-2">Nombre Completo:</label>
-                        <input type="text" id="student-name" required class="w-full bg-stone-900 border border-stone-800 rounded-lg p-3 text-stone-200 focus:outline-none focus:border-amber-500 text-sm">
+                        <input type="text" id="student-name" required class="w-full bg-stone-900 border border-stone-800 rounded-lg p-3 text-stone-200 focus:outline-none focus:border-amber-500 text-sm" placeholder="Ej: Noelia González">
                     </div>
                     <div>
                         <label class="block text-xs font-heading uppercase text-stone-500 mb-2">Correo Electrónico (Donde recibirás tu Ficha):</label>
-                        <input type="email" id="student-email" required class="w-full bg-stone-900 border border-stone-800 rounded-lg p-3 text-stone-200 focus:outline-none focus:border-amber-500 text-sm">
+                        <input type="email" id="student-email" required class="w-full bg-stone-900 border border-stone-800 rounded-lg p-3 text-stone-200 focus:outline-none focus:border-amber-500 text-sm" placeholder="tu.correo@ejemplo.com">
                     </div>
                 </div>
 
-                <button type="button" id="start-btn" class="px-6 py-3 bg-amber-500 text-stone-950 font-heading text-sm font-medium rounded-md hover:bg-amber-400 transition">
+                <button type="button" id="start-btn" class="w-full sm:w-auto px-6 py-3 bg-amber-500 text-stone-950 font-heading text-sm font-medium rounded-md hover:bg-amber-400 transition cursor-pointer">
                     Comenzar Test →
                 </button>
             </div>
@@ -87,14 +87,14 @@
                 <textarea id="fase_cierre" class="w-full h-40 bg-stone-900 border border-stone-800 rounded-lg p-4 text-stone-200 text-sm resize-none focus:outline-none focus:border-amber-500" placeholder="¿Cómo te relacionas con el cliente o tu equipo al cerrar? ¿Cómo desconectas al final del día?..."></textarea>
             </div>
 
-            <!-- Botones -->
+            <!-- Contenedor de Botones de Navegación -->
             <div id="nav-container" class="mt-8 flex justify-between items-center hidden">
-                <button type="button" id="prev-btn" class="px-4 py-2 text-sm text-stone-500 hover:text-stone-300 transition">← Volver</button>
-                <button type="button" id="next-btn" class="px-6 py-2.5 bg-stone-200 text-stone-950 font-heading text-sm font-medium rounded-md hover:bg-white transition">Siguiente paso →</button>
+                <button type="button" id="prev-btn" class="px-4 py-2 text-sm text-stone-500 hover:text-stone-300 transition cursor-pointer">← Volver</button>
+                <button type="button" id="next-btn" class="px-6 py-2.5 bg-stone-200 text-stone-950 font-heading text-sm font-medium rounded-md hover:bg-white transition cursor-pointer">Siguiente paso →</button>
             </div>
         </form>
 
-        <!-- PANTALLA DE CARGA / ÉXITO -->
+        <!-- PANTALLAS DE ESTADO -->
         <div id="loading-screen" class="hidden text-center py-12">
             <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500 mb-4"></div>
             <h2 class="text-2xl font-heading font-medium text-stone-100 mb-2">Procesando tu Identidad Profesional...</h2>
@@ -104,7 +104,7 @@
         <div id="success-screen" class="hidden text-center py-12">
             <h2 class="text-3xl font-heading font-bold text-amber-500 mb-4">¡Ficha Enviada con Éxito! 🎬</h2>
             <p class="text-stone-300 text-sm leading-relaxed mb-6">Hemos enviado tu diagnóstico completo y maquetado directamente a tu bandeja de entrada. Revisa tu correo (y la carpeta de SPAM por si acaso) para descubrir tu perfil de mercado y tu desafío de entrenamiento.</p>
-            <button onclick="window.location.reload();" class="px-4 py-2 bg-stone-900 text-xs text-stone-400 rounded hover:bg-stone-800">Enviar otra respuesta</button>
+            <button onclick="window.location.reload();" class="px-4 py-2 bg-stone-900 text-xs text-stone-400 rounded hover:bg-stone-800 cursor-pointer">Enviar otra respuesta</button>
         </div>
     </main>
 
@@ -113,7 +113,8 @@
     </footer>
 
     <script>
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwGMc72pAgwcx6vyHbOtSBepm85gekAwFhDEs6_hDpTJaX5Y2yncagl82jsoOJO8CNsjw/exec"; // <--- Pega aquí tu URL de Google Apps Script
+        // PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT (Copiada del Despliegue)
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwGMc72pAgwcx6vyHbOtSBepm85gekAwFhDEs6_hDpTJaX5Y2yncagl82jsoOJO8CNsjw/exec"; 
 
         let currentStep = 0;
         const totalSteps = 6;
@@ -124,11 +125,12 @@
         const navContainer = document.getElementById('nav-container');
         const progressText = document.getElementById('progress-text');
 
+        // Evento para arrancar desde el Paso 0
         startBtn.addEventListener('click', () => {
             const name = document.getElementById('student-name').value.trim();
             const email = document.getElementById('student-email').value.trim();
             if (!name || !email) {
-                alert("Por favor completa tu nombre y tu correo.");
+                alert("Por favor completa tu nombre y tu correo electrónico antes de comenzar.");
                 return;
             }
             currentStep = 1;
@@ -136,6 +138,7 @@
             updateStep();
         });
 
+        // Función para actualizar la vista de pasos
         function updateStep() {
             document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
             document.querySelector(`.step-content[data-step="${currentStep}"]`).classList.remove('hidden');
@@ -145,18 +148,19 @@
 
             if (currentStep === totalSteps) {
                 nextBtn.innerText = "Finalizar y Enviar a mi Correo 🚀";
-                nextBtn.className = "px-6 py-2.5 bg-amber-500 text-stone-950 font-heading text-sm font-medium rounded-md hover:bg-amber-400 transition";
+                nextBtn.className = "px-6 py-2.5 bg-amber-500 text-stone-950 font-heading text-sm font-medium rounded-md hover:bg-amber-400 transition cursor-pointer";
             } else {
                 nextBtn.innerText = "Siguiente paso →";
-                nextBtn.className = "px-6 py-2.5 bg-stone-200 text-stone-950 font-heading text-sm font-medium rounded-md hover:bg-white transition";
+                nextBtn.className = "px-6 py-2.5 bg-stone-200 text-stone-950 font-heading text-sm font-medium rounded-md hover:bg-white transition cursor-pointer";
             }
         }
 
+        // Navegación Hacia Adelante
         nextBtn.addEventListener('click', () => {
             if (currentStep > 0 && currentStep <= totalSteps) {
                 const currentTextarea = document.querySelector(`.step-content[data-step="${currentStep}"] textarea`);
                 if (currentTextarea && !currentTextarea.value.trim()) {
-                    alert("Por favor completa este paso antes de continuar.");
+                    alert("Por favor escribe tu respuesta en este paso para continuar.");
                     return;
                 }
             }
@@ -169,6 +173,7 @@
             }
         });
 
+        // Navegación Hacia Atrás
         prevBtn.addEventListener('click', () => {
             if (currentStep > 1) {
                 currentStep--;
@@ -176,6 +181,7 @@
             }
         });
 
+        // Envío final hacia Google Apps Script
         function submitData() {
             document.getElementById('story-form').classList.add('hidden');
             navContainer.classList.add('hidden');
@@ -196,9 +202,7 @@
 
             fetch(WEB_APP_URL, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8', // Apps Script procesa mejor text/plain cuando hay redirecciones
-                },
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(payload)
             })
             .then(() => {
@@ -206,8 +210,11 @@
                 document.getElementById('success-screen').classList.remove('hidden');
             })
             .catch(err => {
-                alert("Ocurrió un error al enviar. Inténtalo nuevamente.");
+                alert("Ocurrió un inconveniente al enviar tus datos. Inténtalo de nuevo.");
                 console.error(err);
+                document.getElementById('loading-screen').classList.add('hidden');
+                document.getElementById('story-form').classList.remove('hidden');
+                navContainer.classList.remove('hidden');
             });
         }
     </script>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Casting de Identidad | Taller de Diseño V12</title>
+    <title>Casting de Identidad | Taller de Diseño V13</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap');
@@ -113,80 +113,14 @@
     </footer>
 
     <script>
-        // PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT (Copiada del Despliegue)
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyC_UaQnijvWSH_lyWrZ1YjiYMJV2JobHMqBpbY95OcYclSb8GNQ0Yah-HKkqnyS6UC/exec"; 
-
-        let currentStep = 0;
-        const totalSteps = 6;
-
-        const startBtn = document.getElementById('start-btn');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const navContainer = document.getElementById('nav-container');
-        const progressText = document.getElementById('progress-text');
-
-        // Evento para arrancar desde el Paso 0
-        startBtn.addEventListener('click', () => {
-            const name = document.getElementById('student-name').value.trim();
-            const email = document.getElementById('student-email').value.trim();
-            if (!name || !email) {
-                alert("Por favor completa tu nombre y tu correo electrónico antes de comenzar.");
-                return;
-            }
-            currentStep = 1;
-            navContainer.classList.remove('hidden');
-            updateStep();
-        });
-
-        // Función para actualizar la vista de pasos
-        function updateStep() {
-            document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
-            document.querySelector(`.step-content[data-step="${currentStep}"]`).classList.remove('hidden');
-            progressText.innerText = `Paso ${currentStep} de ${totalSteps}`;
-
-            prevBtn.style.visibility = (currentStep === 1) ? 'hidden' : 'visible';
-
-            if (currentStep === totalSteps) {
-                nextBtn.innerText = "Finalizar y Enviar a mi Correo 🚀";
-                nextBtn.className = "px-6 py-2.5 bg-amber-500 text-stone-950 font-heading text-sm font-medium rounded-md hover:bg-amber-400 transition cursor-pointer";
-            } else {
-                nextBtn.innerText = "Siguiente paso →";
-                nextBtn.className = "px-6 py-2.5 bg-stone-200 text-stone-950 font-heading text-sm font-medium rounded-md hover:bg-white transition cursor-pointer";
-            }
-        }
-
-        // Navegación Hacia Adelante
-        nextBtn.addEventListener('click', () => {
-            if (currentStep > 0 && currentStep <= totalSteps) {
-                const currentTextarea = document.querySelector(`.step-content[data-step="${currentStep}"] textarea`);
-                if (currentTextarea && !currentTextarea.value.trim()) {
-                    alert("Por favor escribe tu respuesta en este paso para continuar.");
-                    return;
-                }
-            }
-
-            if (currentStep < totalSteps) {
-                currentStep++;
-                updateStep();
-            } else {
-                submitData();
-            }
-        });
-
-        // Navegación Hacia Atrás
-        prevBtn.addEventListener('click', () => {
-            if (currentStep > 1) {
-                currentStep--;
-                updateStep();
-            }
-        });
-
-        // Envío final hacia Google Apps Script
+       // Reemplaza con la URL del Webhook que te dio Make en el Paso 1
+        const MAKE_WEBHOOK_URL = "https://hook.us2.make.com/egyicuy37h7daejptjolgbw76g4ywpw8"; 
+        
         function submitData() {
             document.getElementById('story-form').classList.add('hidden');
             navContainer.classList.add('hidden');
             document.getElementById('loading-screen').classList.remove('hidden');
-
+        
             const payload = {
                 nombre: document.getElementById('student-name').value,
                 email: document.getElementById('student-email').value,
@@ -199,18 +133,19 @@
                     fase_cierre: document.getElementById('fase_cierre').value
                 }
             };
-
-            fetch(WEB_APP_URL, {
+        
+            // Envío súper limpio mediante POST
+            fetch(MAKE_WEBHOOK_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             })
-            .then(() => {
+            .then(response => {
                 document.getElementById('loading-screen').classList.add('hidden');
                 document.getElementById('success-screen').classList.remove('hidden');
             })
             .catch(err => {
-                alert("Ocurrió un inconveniente al enviar tus datos. Inténtalo de nuevo.");
+                alert("Ocurrió un inconveniente al enviar. Inténtalo de nuevo.");
                 console.error(err);
                 document.getElementById('loading-screen').classList.add('hidden');
                 document.getElementById('story-form').classList.remove('hidden');

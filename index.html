@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Casting de Identidad | Taller de Diseño V13</title>
+    <title>Casting de Identidad | Taller de Diseño V14</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&display=swap');
@@ -109,18 +109,88 @@
     </main>
 
     <footer class="p-6 text-center text-xs text-stone-600 max-w-4xl mx-auto w-full border-t border-stone-900/30">
-        Taller de Identidad Profesional // Automatización 100% Serverless
+        Taller de Identidad Profesional // Automatización Serverless
     </footer>
 
     <script>
-       // Reemplaza con la URL del Webhook que te dio Make en el Paso 1
+        // PEGA AQUÍ LA URL DEL WEBHOOK DE MAKE.COM
         const MAKE_WEBHOOK_URL = "https://hook.us2.make.com/egyicuy37h7daejptjolgbw76g4ywpw8"; 
-        
+
+        let currentStep = 0;
+        const totalSteps = 6;
+
+        const startBtn = document.getElementById('start-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const navContainer = document.getElementById('nav-container');
+        const progressText = document.getElementById('progress-text');
+
+        // AVANZAR DESDE EL PASO 0
+        startBtn.addEventListener('click', () => {
+            const name = document.getElementById('student-name').value.trim();
+            const email = document.getElementById('student-email').value.trim();
+            
+            if (!name || !email) {
+                alert("Por favor completa tu nombre y tu correo electrónico antes de comenzar.");
+                return;
+            }
+            
+            currentStep = 1;
+            navContainer.classList.remove('hidden');
+            updateStep();
+        });
+
+        // ACTUALIZAR PANTALLA SEGÚN EL PASO
+        function updateStep() {
+            document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
+            
+            const activeStep = document.querySelector(`.step-content[data-step="${currentStep}"]`);
+            if (activeStep) activeStep.classList.remove('hidden');
+
+            progressText.innerText = `Paso ${currentStep} de ${totalSteps}`;
+            prevBtn.style.visibility = (currentStep === 1) ? 'hidden' : 'visible';
+
+            if (currentStep === totalSteps) {
+                nextBtn.innerText = "Finalizar y Enviar a mi Correo 🚀";
+                nextBtn.className = "px-6 py-2.5 bg-amber-500 text-stone-950 font-heading text-sm font-medium rounded-md hover:bg-amber-400 transition cursor-pointer";
+            } else {
+                nextBtn.innerText = "Siguiente paso →";
+                nextBtn.className = "px-6 py-2.5 bg-stone-200 text-stone-950 font-heading text-sm font-medium rounded-md hover:bg-white transition cursor-pointer";
+            }
+        }
+
+        // NAVEGACIÓN ADELANTE
+        nextBtn.addEventListener('click', () => {
+            if (currentStep > 0 && currentStep <= totalSteps) {
+                const currentTextarea = document.querySelector(`.step-content[data-step="${currentStep}"] textarea`);
+                if (currentTextarea && !currentTextarea.value.trim()) {
+                    alert("Por favor escribe tu respuesta en este paso para continuar.");
+                    return;
+                }
+            }
+
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateStep();
+            } else {
+                submitData();
+            }
+        });
+
+        // NAVEGACIÓN ATRÁS
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStep();
+            }
+        });
+
+        // ENVÍO FINAL A MAKE.COM
         function submitData() {
             document.getElementById('story-form').classList.add('hidden');
             navContainer.classList.add('hidden');
             document.getElementById('loading-screen').classList.remove('hidden');
-        
+
             const payload = {
                 nombre: document.getElementById('student-name').value,
                 email: document.getElementById('student-email').value,
@@ -133,19 +203,18 @@
                     fase_cierre: document.getElementById('fase_cierre').value
                 }
             };
-        
-            // Envío súper limpio mediante POST
+
             fetch(MAKE_WEBHOOK_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             })
-            .then(response => {
+            .then(() => {
                 document.getElementById('loading-screen').classList.add('hidden');
                 document.getElementById('success-screen').classList.remove('hidden');
             })
             .catch(err => {
-                alert("Ocurrió un inconveniente al enviar. Inténtalo de nuevo.");
+                alert("Ocurrió un inconveniente al enviar los datos. Inténtalo de nuevo.");
                 console.error(err);
                 document.getElementById('loading-screen').classList.add('hidden');
                 document.getElementById('story-form').classList.remove('hidden');
